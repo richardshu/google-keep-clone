@@ -1,6 +1,6 @@
 # Google Keep Clone 💡
 
-
+![Google Keep Clone Screenshot](https://user-images.githubusercontent.com/17105490/132122131-d983e182-4d42-4c94-b86b-17afa63926ab.png)
 
 A Google Keep clone built with the MERN stack.
 
