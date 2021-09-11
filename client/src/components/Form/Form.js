@@ -6,6 +6,7 @@ function Form({ notes, setNotes, currentId, setCurrentId }) {
   const [noteData, setNoteData] = useState({
     title: "",
     message: "",
+    upvotes: 0,
   });
 
   const note = currentId ? notes.find((note) => note._id === currentId) : null;

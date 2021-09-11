@@ -23,46 +23,42 @@ export const createNote = async (req, res) => {
 };
 
 export const updateNote = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
   const note = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send(`No note with the id ${_id} exists`); // 404 Not Found
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send(`No note with the id ${id} exists`); // 404 Not Found
   }
 
-  const updatedNote = await Note.findByIdAndUpdate(
-    _id,
-    { ...note, _id },
-    {
-      new: true,
-    }
-  );
+  const updatedNote = await Note.findByIdAndUpdate(id, note, {
+    new: true,
+  });
 
   res.json(updatedNote);
 };
 
 export const deleteNote = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send(`No note with the id ${_id} exists`); // 404 Not Found
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send(`No note with the id ${id} exists`); // 404 Not Found
   }
 
-  await Note.findByIdAndRemove(_id);
+  await Note.findByIdAndRemove(id);
 
   res.json({ message: "Note deleted successfully" });
 };
 
 export const upvoteNote = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send(`No note with the id ${_id} exists`); // 404 Not Found
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send(`No note with the id ${id} exists`); // 404 Not Found
   }
 
-  const note = await Note.findById(_id);
+  const note = await Note.findById(id);
   const updatedNote = await Note.findByIdAndUpdate(
-    _id,
+    id,
     { upvotes: note.upvotes + 1 },
     { new: true }
   );
@@ -71,15 +67,15 @@ export const upvoteNote = async (req, res) => {
 };
 
 export const downvoteNote = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send(`No note with the id ${_id} exists`); // 404 Not Found
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send(`No note with the id ${id} exists`); // 404 Not Found
   }
 
-  const note = await Note.findById(_id);
+  const note = await Note.findById(id);
   const updatedNote = await Note.findByIdAndUpdate(
-    _id,
+    id,
     { upvotes: note.upvotes - 1 },
     {
       new: true,
