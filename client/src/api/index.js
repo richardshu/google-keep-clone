@@ -37,3 +37,21 @@ export const deleteNote = async (notes, id) => {
     console.error(error);
   }
 };
+
+export const upvoteNote = async (notes, id) => {
+  try {
+    const { data } = await axios.patch(`${url}/${id}/upvote`);
+    return notes.map((note) => (note._id === data._id ? data : note));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const downvoteNote = async (notes, id) => {
+  try {
+    const { data } = await axios.patch(`${url}/${id}/downvote`);
+    return notes.map((note) => (note._id === data._id ? data : note));
+  } catch (error) {
+    console.error(error);
+  }
+};

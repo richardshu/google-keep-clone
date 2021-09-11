@@ -52,3 +52,39 @@ export const deleteNote = async (req, res) => {
 
   res.json({ message: "Note deleted successfully" });
 };
+
+export const upvoteNote = async (req, res) => {
+  const { id: _id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(404).send(`No note with the id ${_id} exists`); // 404 Not Found
+  }
+
+  const note = await Note.findById(_id);
+  const updatedNote = await Note.findByIdAndUpdate(
+    _id,
+    { upvotes: note.upvotes + 1 },
+    { new: true }
+  );
+
+  res.json(updatedNote);
+};
+
+export const downvoteNote = async (req, res) => {
+  const { id: _id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(404).send(`No note with the id ${_id} exists`); // 404 Not Found
+  }
+
+  const note = await Note.findById(_id);
+  const updatedNote = await Note.findByIdAndUpdate(
+    _id,
+    { upvotes: note.upvotes - 1 },
+    {
+      new: true,
+    }
+  );
+
+  res.json(updatedNote);
+};
