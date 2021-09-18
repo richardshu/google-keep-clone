@@ -3,35 +3,25 @@ import { useState, useEffect } from "react";
 import Form from "./components/Form/Form";
 import Notes from "./components/Notes/Notes";
 
-import { getNotes } from "./api";
+import { useDispatch } from "react-redux";
+import { getNotes } from "./actions/notes";
 
 import "./App.css";
 
 function App() {
-  const [notes, setNotes] = useState([]);
   const [currentId, setCurrentId] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const newNotes = await getNotes();
-      setNotes(newNotes);
-    };
-    fetchData();
-  }, []);
+    dispatch(getNotes());
+  }, [dispatch]);
 
   return (
     <div>
-      <Form
-        notes={notes}
-        setNotes={setNotes}
-        currentId={currentId}
-        setCurrentId={setCurrentId}
-      />
-
+      <Form currentId={currentId} setCurrentId={setCurrentId} />
       <br />
       <br />
-
-      <Notes notes={notes} setNotes={setNotes} setCurrentId={setCurrentId} />
+      <Notes setCurrentId={setCurrentId} />
     </div>
   );
 }

@@ -9,22 +9,23 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import { deleteNote, upvoteNote, downvoteNote } from "../../../api";
 
-function Note({ notes, setNotes, note, setCurrentId }) {
-  const handleUpvote = async () => {
-    const newNotes = await upvoteNote(notes, note._id);
-    setNotes(newNotes);
+import { useDispatch } from "react-redux";
+import { upvoteNote, downvoteNote, deleteNote } from "../../../actions/notes";
+
+function Note({ note, setCurrentId }) {
+  const dispatch = useDispatch();
+
+  const handleUpvote = () => {
+    dispatch(upvoteNote(note._id));
   };
 
-  const handleDownvote = async () => {
-    const newNotes = await downvoteNote(notes, note._id);
-    setNotes(newNotes);
+  const handleDownvote = () => {
+    dispatch(downvoteNote(note._id));
   };
 
-  const handleDeleteNote = async () => {
-    const newNotes = await deleteNote(notes, note._id);
-    setNotes(newNotes);
+  const handleDeleteNote = () => {
+    dispatch(deleteNote(note._id));
   };
 
   return (

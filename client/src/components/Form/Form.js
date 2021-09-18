@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import { TextField, Button, Typography, Container } from "@material-ui/core";
-import { createNote, updateNote } from "../../api";
 
-function Form({ notes, setNotes, currentId, setCurrentId }) {
+import { useDispatch, useSelector } from "react-redux";
+import { createNote, updateNote } from "../../actions/notes";
+
+function Form({ currentId, setCurrentId }) {
   const [noteData, setNoteData] = useState({
     title: "",
     message: "",
     upvotes: 0,
   });
 
-  const note = currentId ? notes.find((note) => note._id === currentId) : null;
+  const dispatch = useDispatch();
+  const note = useSelector((state) =>
+    currentId ? state.notes.find((note) => note._id === currentId) : null
+  );
 
   // If we edit a note, populate the form's data fields with that note's info
   useEffect(() => {
@@ -18,15 +23,13 @@ function Form({ notes, setNotes, currentId, setCurrentId }) {
     }
   }, [currentId, note]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault(); // to prevent refreshes in the browser
 
     if (currentId) {
-      const newNotes = await updateNote(notes, currentId, noteData);
-      setNotes(newNotes);
+      dispatch(updateNote(currentId, noteData));
     } else {
-      const newNotes = await createNote(notes, noteData);
-      setNotes(newNotes);
+      dispatch(createNote(noteData));
     }
     handleClear();
   };
