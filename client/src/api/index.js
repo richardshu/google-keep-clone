@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/notes";
+// const url = "http://localhost:5000/notes"; // use this URL if you want to run the server locally
+const url = "https://google-keep-clone-mern-stack.herokuapp.com/notes";
 
 export const getNotes = () => axios.get(url);
 export const createNote = (newNote) => axios.post(url, newNote);
